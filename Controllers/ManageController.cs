@@ -75,8 +75,8 @@ namespace serverSideCapstone.Controllers
         public async Task<IActionResult> Index(IndexViewModel model)
         {
             //Must remove the Required keys on the application user to validate the view model form.
-            ModelState.Remove("model.ApplicationUser.OwnerFirstName");
-            ModelState.Remove("model.ApplicationUser.OwnerLastName");
+            ModelState.Remove("ApplicationUser.OwnerFirstName");
+            ModelState.Remove("ApplicationUser.OwnerLastName");
 
             if (!ModelState.IsValid)
             {
