@@ -11,9 +11,6 @@ namespace serverSideCapstone.Models
     public class ApplicationUser : IdentityUser
     {
         [Required]
-        public string DogName {get; set;}
-
-        [Required]
         public string OwnerFirstName {get; set;}
 
         [Required]
@@ -21,11 +18,11 @@ namespace serverSideCapstone.Models
         
         public string Address {get; set;}
         public string City {get; set;}
-        public int ZipCode {get; set;}
+        public int? ZipCode {get; set;}
         public string ProfileDesctiption {get; set;}
 
-        public bool IsIntact {get; set;}
-        public int ActivityLevelId {get; set;}
+        public bool? IsIntact {get; set;}
+        public int? ActivityLevelId {get; set;}
         public ActivityLevel ActivityLevel {get; set;}
 
         public string ImgPath {get; set;}

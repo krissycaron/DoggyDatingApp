@@ -2,10 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace serverSideCapstone.Models
 {
-    public class UserLikes
+    public class UserLike
     {
         [Key]
-        public int UserLikesId {get; set;}
+        public int UserLikeId {get; set;}
         public ApplicationUser CurrentUser {get; set;}
         public ApplicationUser LikedUserId {get; set;}
 

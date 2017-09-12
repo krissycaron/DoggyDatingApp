@@ -8,15 +8,12 @@ namespace serverSideCapstone.Models.AccountViewModels
 {
     public class RegisterViewModel
     {   
-        [Required]
         [Display(Name = "Pups User Name")]
         public string DogName {get; set;}
 
-        [Required]
         [Display(Name = "Owner First Name")]
         public string OwnerFirstName {get; set;}
-        [Required]
-        [Display(Name = "OwnerLastName")] 
+        [Display(Name = "Owner Last Name")] 
         public string OwnerLastName {get; set;}
 
         [Required]
