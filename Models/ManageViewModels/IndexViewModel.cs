@@ -20,6 +20,18 @@ namespace serverSideCapstone.Models.ManageViewModels
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
+         public string Address {get; set;}
+        public string City {get; set;}
+        public string State {get; set;}
+        public int? ZipCode {get; set;}
+        public string ProfileDesctiption {get; set;}
+
+        public bool? IsIntact {get; set;}
+        public int? ActivityLevelId {get; set;}
+        public ActivityLevel ActivityLevel {get; set;}
+
+        public string ImgPath {get; set;}
+
         public string StatusMessage { get; set; }
     }
 }
