@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using serverSideCapstone.Data;
 using serverSideCapstone.Models;
 using serverSideCapstone.Models.ManageViewModels;
 using serverSideCapstone.Services;
@@ -25,6 +26,7 @@ namespace serverSideCapstone.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private ApplicationDbContext _context;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -33,13 +35,15 @@ namespace serverSideCapstone.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder, 
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
         }
 
         [TempData]
@@ -70,6 +74,10 @@ namespace serverSideCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(IndexViewModel model)
         {
+            //Must remove the Required keys on the application user to validate the view model form.
+            ModelState.Remove("model.ApplicationUser.OwnerFirstName");
+            ModelState.Remove("model.ApplicationUser.OwnerLastName");
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -100,6 +108,30 @@ namespace serverSideCapstone.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
             }
+
+
+            var userAddress = user.Address;
+            if(model.ApplicationUser.Address != userAddress)
+                {
+                    user.Address = model.ApplicationUser.Address;
+                }
+
+            var userState = user.State;
+            if(model.ApplicationUser.State != userState)
+                {
+                    user.State = model.ApplicationUser.State;
+                }
+                
+            var userCity = user.City;
+            if(model.ApplicationUser.City != userCity)
+                {
+                    user.City = model.ApplicationUser.City;
+                }
+            
+
+            _context.ApplicationUser.Update(user);
+            _context.SaveChanges();
+
 
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
