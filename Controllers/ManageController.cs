@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -70,7 +71,8 @@ namespace serverSideCapstone.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                ImgPath = user.ImgPath
             };
 
             return View(model);
@@ -133,21 +135,24 @@ namespace serverSideCapstone.Controllers
                 {
                     user.City = model.ApplicationUser.City;
                 }
-            
-            // long size = 0;
-            // foreach (var file in model.Image)
-            // {
-            //     var filename = ContentDispositionHeaderValue
-            //                         .Parse(file.ContentDisposition)
-            //                         .FileName;
+            long size = 0;
+            List<IFormFile> files = model.Image;
+            foreach (var file in model.Image)
+            {
+                var filename = ContentDispositionHeaderValue
+                                    .Parse(file.ContentDisposition)
+                                    .FileName.TrimEnd();
 
-            //     filename = _environment.WebRootPath + $@"\images\ProfilePics{file.FileName.Split('\\').Last()}";
-            //     size += file.Length;
-            //     using (var fileStream = new FileStream(filename, FileAccess.Write))
-            //     {
-            //         await file.CopyToAsync(fileStream);
-            //         model.ApplicationUser.ImgPath = $@"\images\ProfilePics{file.FileName.Split('\\').Last()}";
-            //     }
+                filename = _environment.WebRootPath + $@"/images/ProfilePics/{file.FileName.Split('/').Last()}";
+                size += file.Length;
+                using (var fileStream = new FileStream(filename.ToString(), FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                    model.ImgPath = $@"/images/ProfilePics/{file.FileName.Split('/').Last()}";
+                }
+            }
+            user.ImgPath = model.ImgPath;
+
             
             
 
@@ -157,8 +162,8 @@ namespace serverSideCapstone.Controllers
 
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
+            
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendVerificationEmail(IndexViewModel model)
