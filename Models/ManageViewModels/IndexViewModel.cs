@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace serverSideCapstone.Models.ManageViewModels
 {
@@ -19,18 +20,7 @@ namespace serverSideCapstone.Models.ManageViewModels
         [Phone]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
-
-        // public string Address {get; set;}
-        // public string City {get; set;}
-        // public string State {get; set;}
-        // public int? ZipCode {get; set;}
-        // public string ProfileDesctiption {get; set;}
-
-        // public bool? IsIntact {get; set;}
-        // public int? ActivityLevelId {get; set;}
-        // public ActivityLevel ActivityLevel {get; set;}
-
-        public string ImgPath {get; set;}
+        public List<IFormFile> Image {get; set;} = new List<IFormFile>();
         public ApplicationUser ApplicationUser {get; set;}
         public string StatusMessage { get; set; }
     }

@@ -48,27 +48,5 @@ namespace serverSideCapstone.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        [HttpPost]
-        public IActionResult UploadFiles(IList<IFormFile> files)
-        {
-            long size = 0;
-            foreach(var file in files)
-            {
-                var filename = ContentDispositionHeaderValue
-                                .Parse(file.ContentDisposition)
-                                .FileName
-                                .Trim('"');
-                filename = hostingEnv.WebRootPath + $@"\Images\ProfilePics{file.FileName.Split('\\').Last()}";
-                size += file.Length;
-                using (FileStream fs = System.IO.File.Create(filename))
-                {
-                file.CopyTo(fs);
-                fs.Flush();
-                }
-            }
-            
-            return View();
-        }
     }
 }

@@ -54,15 +54,10 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <!--Image Uploading for Profile Photo-->
+             <label asp-for="Image">Upload Image:</label>
+            <input asp-for="Image" class="form-control" type="file" name="Image" id="Image" accept="Image/*"/><br><br>
             <button type="submit" class="btn btn-default">Save</button>
         </form>
-            <form asp-action="UploadFiles" 
-                asp-controller="Account" 
-                method="post"
-                enctype="multipart/form-data">
-                <input type="file" name="files" multiple />
-                <input type="submit" value="Upload Selected Files" />
-            </form>
     </div>
 </div>
 

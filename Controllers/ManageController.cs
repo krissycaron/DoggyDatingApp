@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using serverSideCapstone.Data;
 using serverSideCapstone.Models;
 using serverSideCapstone.Models.ManageViewModels;
@@ -27,6 +30,7 @@ namespace serverSideCapstone.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private ApplicationDbContext _context;
+        private readonly IHostingEnvironment _environment;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -36,7 +40,8 @@ namespace serverSideCapstone.Controllers
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder, 
-          ApplicationDbContext context)
+          ApplicationDbContext context,
+          IHostingEnvironment environment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -44,6 +49,7 @@ namespace serverSideCapstone.Controllers
             _logger = logger;
             _urlEncoder = urlEncoder;
             _context = context;
+            _environment = environment;
         }
 
         [TempData]
@@ -127,6 +133,22 @@ namespace serverSideCapstone.Controllers
                 {
                     user.City = model.ApplicationUser.City;
                 }
+            
+            // long size = 0;
+            // foreach (var file in model.Image)
+            // {
+            //     var filename = ContentDispositionHeaderValue
+            //                         .Parse(file.ContentDisposition)
+            //                         .FileName;
+
+            //     filename = _environment.WebRootPath + $@"\images\ProfilePics{file.FileName.Split('\\').Last()}";
+            //     size += file.Length;
+            //     using (var fileStream = new FileStream(filename, FileAccess.Write))
+            //     {
+            //         await file.CopyToAsync(fileStream);
+            //         model.ApplicationUser.ImgPath = $@"\images\ProfilePics{file.FileName.Split('\\').Last()}";
+            //     }
+            
             
 
             _context.ApplicationUser.Update(user);
