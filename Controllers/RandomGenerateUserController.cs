@@ -32,13 +32,14 @@ namespace serverSideCapstone.Controllers
             .Where(cu => cu != id)
             .ToList();
             // currentUserDisplayed = GetRandomuser out of able list of users 
+            // Genearate a random # 
             Random random = new Random();
+            // Get user out of the list. 
             var GetRandomuser = random.Next(ListOfUsers.Count);
+            var singleUserToDisplay = ListOfUsers[GetRandomuser];
 
-            return View(ListOfUsers);
+            return View(singleUserToDisplay);
         }
-        // Genearate a random # 
-        // GEt user out of the list. 
         
     }
 }

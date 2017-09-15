@@ -1,0 +1,27 @@
+@model serverSideCapstone.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>HI - index random</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                  UserName:
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.OwnerFirstName)
+            </td>
+        </tr>
+    </tbody>
+</table>
