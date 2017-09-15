@@ -3,6 +3,7 @@ bower_components
 __pycache__
 *.pyc
 bin/
+bin/Debug
 obj/
 *.db
 *.sqlite3
