@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
+using serverSideCapstone.Data;
 using serverSideCapstone.Models;
 using serverSideCapstone.Models.ManageViewModels;
 using serverSideCapstone.Services;
@@ -25,6 +30,8 @@ namespace serverSideCapstone.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private ApplicationDbContext _context;
+        private readonly IHostingEnvironment _environment;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -33,13 +40,17 @@ namespace serverSideCapstone.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder, 
+          ApplicationDbContext context,
+          IHostingEnvironment environment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
+            _environment = environment;
         }
 
         [TempData]
@@ -60,7 +71,8 @@ namespace serverSideCapstone.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                ImgPath = user.ImgPath
             };
 
             return View(model);
@@ -70,6 +82,10 @@ namespace serverSideCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(IndexViewModel model)
         {
+            //Must remove the Required keys on the application user to validate the view model form.
+            ModelState.Remove("ApplicationUser.OwnerFirstName");
+            ModelState.Remove("ApplicationUser.OwnerLastName");
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -101,10 +117,53 @@ namespace serverSideCapstone.Controllers
                 }
             }
 
+
+            var userAddress = user.Address;
+            if(model.ApplicationUser.Address != userAddress)
+                {
+                    user.Address = model.ApplicationUser.Address;
+                }
+
+            var userState = user.State;
+            if(model.ApplicationUser.State != userState)
+                {
+                    user.State = model.ApplicationUser.State;
+                }
+                
+            var userCity = user.City;
+            if(model.ApplicationUser.City != userCity)
+                {
+                    user.City = model.ApplicationUser.City;
+                }
+            long size = 0;
+            List<IFormFile> files = model.Image;
+            foreach (var file in model.Image)
+            {
+                var filename = ContentDispositionHeaderValue
+                                    .Parse(file.ContentDisposition)
+                                    .FileName.TrimEnd();
+
+                filename = _environment.WebRootPath + $@"/images/ProfilePics/{file.FileName.Split('/').Last()}";
+                size += file.Length;
+                using (var fileStream = new FileStream(filename.ToString(), FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                    model.ImgPath = $@"/images/ProfilePics/{file.FileName.Split('/').Last()}";
+                }
+            }
+            user.ImgPath = model.ImgPath;
+
+            
+            
+
+            _context.ApplicationUser.Update(user);
+            _context.SaveChanges();
+
+
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
+            
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendVerificationEmail(IndexViewModel model)

@@ -10,6 +10,7 @@ namespace serverSideCapstone.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
+        public string DogName {get; set;}        
         [Required]
         public string OwnerFirstName {get; set;}
 
@@ -18,6 +19,7 @@ namespace serverSideCapstone.Models
         
         public string Address {get; set;}
         public string City {get; set;}
+        public string State {get; set;}
         public int? ZipCode {get; set;}
         public string ProfileDesctiption {get; set;}
 

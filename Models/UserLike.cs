@@ -7,7 +7,7 @@ namespace serverSideCapstone.Models
         [Key]
         public int UserLikeId {get; set;}
         public ApplicationUser CurrentUser {get; set;}
-        public ApplicationUser LikedUserId {get; set;}
+        public ApplicationUser LikedUser {get; set;}
 
         public bool IsLiked {get; set;}
     }

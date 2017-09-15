@@ -32,5 +32,6 @@ namespace serverSideCapstone.Data
         public DbSet<serverSideCapstone.Models.Message> Message { get; set; }
 
         public DbSet<serverSideCapstone.Models.UserLike> UserLike { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser {get; set;}
     }
 }

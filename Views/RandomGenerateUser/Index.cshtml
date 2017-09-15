@@ -1,0 +1,39 @@
+@model serverSideCapstone.Models.ViewModels.LikedUserViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>HI - index random</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                  UserName:
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => @Model.LikedUser.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => @Model.LikedUser.OwnerFirstName)
+                
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="container">
+    <img src="@Html.DisplayFor(model => model.LikedUser.ImgPath)" />
+    <div class="row">
+    <div class="col">
+        <form asp-controller="UserLike" asp-action="CreateLike" method="post">
+            <input type="hidden" asp-for="@Model.LikedUser.Id" />
+            <input type="submit"  asp-for="@Model.isLikedUser" value="Like" class="btn btn-default">
+            <input type="submit"  asp-for="@Model.isLikedUser" value="Skip" class="btn btn-default">
+        </form>
+    </div>
+</div>
