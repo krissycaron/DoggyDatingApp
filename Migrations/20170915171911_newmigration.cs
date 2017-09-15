@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace serverSideCapstone.Migrations
 {
-    public partial class newMigration3 : Migration
+    public partial class newmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,6 +45,7 @@ namespace serverSideCapstone.Migrations
                     Address = table.Column<string>(type: "TEXT", nullable: true),
                     City = table.Column<string>(type: "TEXT", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    DogName = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     ImgPath = table.Column<string>(type: "TEXT", nullable: true),
@@ -60,6 +61,7 @@ namespace serverSideCapstone.Migrations
                     PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     ProfileDesctiption = table.Column<string>(type: "TEXT", nullable: true),
                     SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    State = table.Column<string>(type: "TEXT", nullable: true),
                     TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     ZipCode = table.Column<int>(type: "INTEGER", nullable: true)
@@ -217,7 +219,7 @@ namespace serverSideCapstone.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     CurrentUserId = table.Column<string>(type: "TEXT", nullable: true),
                     IsLiked = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LikedUserIdId = table.Column<string>(type: "TEXT", nullable: true)
+                    LikedUserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -229,8 +231,8 @@ namespace serverSideCapstone.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserLike_AspNetUsers_LikedUserIdId",
-                        column: x => x.LikedUserIdId,
+                        name: "FK_UserLike_AspNetUsers_LikedUserId",
+                        column: x => x.LikedUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -294,9 +296,9 @@ namespace serverSideCapstone.Migrations
                 column: "CurrentUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserLike_LikedUserIdId",
+                name: "IX_UserLike_LikedUserId",
                 table: "UserLike",
-                column: "LikedUserIdId");
+                column: "LikedUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

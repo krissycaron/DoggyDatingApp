@@ -1,0 +1,12 @@
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/obj/Debug/netcoreapp2.0/serverSideCapstone.csproj.CoreCompileInputs.cache
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/obj/Debug/netcoreapp2.0/UserSecretsAssemblyInfo.cs
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/obj/Debug/netcoreapp2.0/serverSideCapstone.AssemblyInfoInputs.cache
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/obj/Debug/netcoreapp2.0/serverSideCapstone.AssemblyInfo.cs
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/bin/Debug/netcoreapp2.0/serverSideCapstone.deps.json
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/bin/Debug/netcoreapp2.0/serverSideCapstone.runtimeconfig.json
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/bin/Debug/netcoreapp2.0/serverSideCapstone.runtimeconfig.dev.json
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/bin/Debug/netcoreapp2.0/serverSideCapstone.dll
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/bin/Debug/netcoreapp2.0/serverSideCapstone.pdb
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/obj/Debug/netcoreapp2.0/serverSideCapstone.dll
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/obj/Debug/netcoreapp2.0/serverSideCapstone.pdb
+/Users/kristincaron/workspace/serverSide/serverSideCapstone/bin/Debug/netcoreapp2.0/app.db

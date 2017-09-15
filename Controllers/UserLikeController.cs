@@ -2,22 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using serverSideCapstone.Data;
 using serverSideCapstone.Models;
+using serverSideCapstone.Models.ViewModels;
 
 namespace serverSideCapstone.Controllers
 {
     public class UserLikeController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserLikeController(ApplicationDbContext context)
+        public UserLikeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
+
+         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+
 
         // GET: UserLike
         public async Task<IActionResult> Index()
@@ -44,9 +52,26 @@ namespace serverSideCapstone.Controllers
         }
 
         // GET: UserLike/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateLike(LikedUserViewModel model)
         {
-            return View();
+            var loggedUser = await GetCurrentUserAsync();
+            var chosenPup = await _context.ApplicationUser
+            .SingleOrDefaultAsync(l => l.Id == model.LikedUser.Id);
+            //If Liked was clicked(True)
+            if(model.isLikedUser == "true")
+            {
+                UserLike liked = new UserLike(){CurrentUser=loggedUser, IsLiked=true, LikedUser=chosenPup };
+                _context.Add(liked);
+                _context.SaveChanges();
+            }
+            if (model.isLikedUser == "skip")
+            {
+                UserLike liked = new UserLike(){CurrentUser=loggedUser, IsLiked=false, LikedUser=chosenPup };
+                _context.Add(liked);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction( "Index","RandomGenerateUser");
         }
 
         // POST: UserLike/Create
@@ -116,34 +141,7 @@ namespace serverSideCapstone.Controllers
             return View(userLike);
         }
 
-        // GET: UserLike/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var userLike = await _context.UserLike
-                .SingleOrDefaultAsync(m => m.UserLikeId == id);
-            if (userLike == null)
-            {
-                return NotFound();
-            }
-
-            return View(userLike);
-        }
-
-        // POST: UserLike/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var userLike = await _context.UserLike.SingleOrDefaultAsync(m => m.UserLikeId == id);
-            _context.UserLike.Remove(userLike);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool UserLikeExists(int id)
         {

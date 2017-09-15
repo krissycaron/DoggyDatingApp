@@ -1,4 +1,4 @@
-@model serverSideCapstone.Models.ApplicationUser
+@model serverSideCapstone.Models.ViewModels.LikedUserViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -17,11 +17,23 @@
     <tbody>
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => modelItem.UserName)
+                @Html.DisplayFor(modelItem => @Model.LikedUser.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => modelItem.OwnerFirstName)
+                @Html.DisplayFor(modelItem => @Model.LikedUser.OwnerFirstName)
+                
             </td>
         </tr>
     </tbody>
 </table>
+<div class="container">
+    <img src="@Html.DisplayFor(model => model.LikedUser.ImgPath)" />
+    <div class="row">
+    <div class="col">
+        <form asp-controller="UserLike" asp-action="CreateLike" method="post">
+            <input type="hidden" asp-for="@Model.LikedUser.Id" />
+            <input type="submit"  asp-for="@Model.isLikedUser" value="Like" class="btn btn-default">
+            <input type="submit"  asp-for="@Model.isLikedUser" value="Skip" class="btn btn-default">
+        </form>
+    </div>
+</div>

@@ -11,8 +11,8 @@ using System;
 namespace serverSideCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170913145734_dogname")]
-    partial class dogname
+    [Migration("20170915171911_newmigration")]
+    partial class newmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -248,13 +248,13 @@ namespace serverSideCapstone.Migrations
 
                     b.Property<bool>("IsLiked");
 
-                    b.Property<string>("LikedUserIdId");
+                    b.Property<string>("LikedUserId");
 
                     b.HasKey("UserLikeId");
 
                     b.HasIndex("CurrentUserId");
 
-                    b.HasIndex("LikedUserIdId");
+                    b.HasIndex("LikedUserId");
 
                     b.ToTable("UserLike");
                 });
@@ -328,9 +328,9 @@ namespace serverSideCapstone.Migrations
                         .WithMany()
                         .HasForeignKey("CurrentUserId");
 
-                    b.HasOne("serverSideCapstone.Models.ApplicationUser", "LikedUserId")
+                    b.HasOne("serverSideCapstone.Models.ApplicationUser", "LikedUser")
                         .WithMany()
-                        .HasForeignKey("LikedUserIdId");
+                        .HasForeignKey("LikedUserId");
                 });
 #pragma warning restore 612, 618
         }
