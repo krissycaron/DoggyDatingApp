@@ -22,10 +22,6 @@ namespace serverSideCapstone.Models.ManageViewModels
         public string PhoneNumber { get; set; }
         public List<IFormFile> Image {get; set;} = new List<IFormFile>();
         public string ImgPath {get; set;}
-        public IndexViewModel()
-        {
-            ApplicationUser = new ApplicationUser();
-        }
         public ApplicationUser ApplicationUser {get; set;}
         public string StatusMessage { get; set; }
     }
