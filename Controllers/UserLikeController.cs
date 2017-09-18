@@ -71,7 +71,7 @@ namespace serverSideCapstone.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction( "Index","RandomGenerateUser");
+            return RedirectToAction( "Index", new {controller = "RandomGenerateUser", action="Index", pupId = chosenPup.Id} );
         }
 
         // POST: UserLike/Create
