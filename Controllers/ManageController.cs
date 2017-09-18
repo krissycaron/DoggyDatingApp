@@ -72,8 +72,10 @@ namespace serverSideCapstone.Controllers
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage,
-                ImgPath = user.ImgPath
+                ImgPath = user.ImgPath,
+                ApplicationUser = user
             };
+
 
             return View(model);
         }

@@ -58,20 +58,20 @@ namespace serverSideCapstone.Controllers
             var chosenPup = await _context.ApplicationUser
             .SingleOrDefaultAsync(l => l.Id == model.LikedUser.Id);
             //If Liked was clicked(True)
-            if(model.isLikedUser == "true")
+            if(model.isLikedUser == "Like")
             {
                 UserLike liked = new UserLike(){CurrentUser=loggedUser, IsLiked=true, LikedUser=chosenPup };
                 _context.Add(liked);
                 _context.SaveChanges();
             }
-            if (model.isLikedUser == "skip")
+            if (model.isLikedUser == "Skip")
             {
                 UserLike liked = new UserLike(){CurrentUser=loggedUser, IsLiked=false, LikedUser=chosenPup };
                 _context.Add(liked);
                 _context.SaveChanges();
             }
 
-            return RedirectToAction( "Index","RandomGenerateUser");
+            return RedirectToAction( "Index", new {controller = "RandomGenerateUser", action="Index", pupId = chosenPup.Id} );
         }
 
         // POST: UserLike/Create

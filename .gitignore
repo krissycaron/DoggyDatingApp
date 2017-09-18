@@ -1,11 +1,11 @@
 node_modules
 bower_components
+*.db
 __pycache__
 *.pyc
 bin/
 bin/Debug
 obj/
-*.db
 *.sqlite3
 .vscode
 lib
