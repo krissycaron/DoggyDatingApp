@@ -31,6 +31,10 @@ namespace serverSideCapstone.Controllers
             var id = await GetCurrentUserAsync();
             //Get a List of users, MINUS logged in user
             var ListOfUsers = _context.ApplicationUser
+            //This is where you would query the skipped 3X and the already liked users. 
+
+
+
             //where current user (cu)
             .Where(cu => cu != id)
             .ToList();
