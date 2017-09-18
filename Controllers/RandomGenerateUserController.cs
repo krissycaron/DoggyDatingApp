@@ -30,14 +30,25 @@ namespace serverSideCapstone.Controllers
             // Get all user Query Database. 
             var id = await GetCurrentUserAsync();
             //Get a List of users, MINUS logged in user
+            var dontShow =  _context.UserLike
+            .Where(cu => cu.CurrentUser == id && cu.IsLiked == false)
+            .GroupBy(lu => lu.LikedUser, (key, g) => new {userId = key, count = g.Count()})
+            .ToList();
+
             var ListOfUsers = _context.ApplicationUser
             //This is where you would query the skipped 3X and the already liked users. 
-
-
-
             //where current user (cu)
             .Where(cu => cu != id)
             .ToList();
+            foreach(var noShow in dontShow)
+              {
+                  if(noShow.count >= 3)
+                  {
+                    ApplicationUser singleUser = _context.ApplicationUser.Single(ns => ns.Id == noShow.userId.Id);
+                    ListOfUsers.Remove(singleUser);
+                  } 
+              }   
+
             if(ListOfUsers.Count <= 0)
             {
                 return View("NoPuppiesToLove");
