@@ -32,6 +32,8 @@ namespace serverSideCapstone.Controllers
         // Genterate the list and then display the divs 
         public async Task<IActionResult> Index()
         {
+            
+            // var ApplicationUser = _context.ApplicationUser.Include(lu => lu.LikedUser);
             return View(await _context.UserLike.ToListAsync());
         }
 
