@@ -1,0 +1,19 @@
+@model IEnumerable<serverSideCapstone.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+<table class="table">
+<tbody>
+@foreach (var users in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => users.OwnerFirstName)
+                @users.OwnerFirstName
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
