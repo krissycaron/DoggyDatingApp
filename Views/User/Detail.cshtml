@@ -1,10 +1,8 @@
-@model serverSideCapstone.Models.UserLike
+@model serverSideCapstone.Models.User
 
 @{
     ViewData["Title"] = "Details";
 }
-
-This View is where I will be querying the Database for liked users and saving them here. 
 
 <h2>Details</h2>
 
@@ -21,6 +19,7 @@ This View is where I will be querying the Database for liked users and saving th
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.UserLikeId">Edit</a> |
+    <a asp-action="Index" asp-route-id="@Model.UserId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+<!--Get the list of users that the current user has liked and display them-->

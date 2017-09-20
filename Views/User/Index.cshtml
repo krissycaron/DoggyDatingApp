@@ -1,0 +1,27 @@
+@model IEnumerable<serverSideCapstone.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+<table class="table">
+<tbody>
+@foreach (var users in Model) {
+<div class="container col-sm-9">
+    <div class="card" style="width: 20rem;">
+    <img class="card-img-top" src="@users.ImgPath" alt="Image">
+        <div class="card-body">
+            <h4 class="card-title">@users.OwnerFirstName</h4>
+            <h4 class="card-title">@users.OwnerLastName</h4>
+            <p class="card-text">Need to add Descriptions</p>
+             <form asp-controller="Message" asp-action="Create" method="post">
+                <input type="hidden"/>
+                <input type="submit" value="Message Me" class="btn btn-default">
+            </form>
+        </div>
+    </div>
+</div>
+}
+    </tbody>
+</table>
