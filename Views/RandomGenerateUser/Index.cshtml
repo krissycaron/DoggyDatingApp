@@ -27,8 +27,7 @@
     </tbody>
 </table>
 <div class="container">
-
-    <img src="@Html.DisplayFor(model => model.LikedUser.ImgPath)" />
+    <img class="likeImg img-responsive" src="@Html.DisplayFor(model => model.LikedUser.ImgPath)" />
     <div class="row">
     <div class="col">
         <form asp-controller="UserLike" asp-action="CreateLike" method="post">

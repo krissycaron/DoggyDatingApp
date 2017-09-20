@@ -33,3 +33,9 @@
         display: none;
     }
 }
+
+/* todo comeback and fix this*/
+.likeImg  {
+    height:50%;
+    width: 50%;
+}
