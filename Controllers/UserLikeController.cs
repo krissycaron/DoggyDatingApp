@@ -28,14 +28,19 @@ namespace serverSideCapstone.Controllers
 
 
         // GET: UserLike
+        //User this to Query all the liked users... on this application user 
+        // Genterate the list and then display the divs 
         public async Task<IActionResult> Index()
         {
+            
+            // var ApplicationUser = _context.ApplicationUser.Include(lu => lu.LikedUser);
             return View(await _context.UserLike.ToListAsync());
         }
 
         // GET: UserLike/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // Query Likeed users on this application user and populate a list of "liked users"  
             if (id == null)
             {
                 return NotFound();

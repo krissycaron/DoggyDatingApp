@@ -137,6 +137,12 @@ namespace serverSideCapstone.Controllers
                 {
                     user.City = model.ApplicationUser.City;
                 }
+            var ProfileDescription = user.ProfileDescription;
+            if(model.ApplicationUser.ProfileDescription != user.ProfileDescription)
+                {
+                    user.ProfileDescription = model.ApplicationUser.ProfileDescription;
+                }
+
             long size = 0;
             List<IFormFile> files = model.Image;
             foreach (var file in model.Image)

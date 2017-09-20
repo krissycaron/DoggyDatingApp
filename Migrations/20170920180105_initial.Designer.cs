@@ -11,8 +11,8 @@ using System;
 namespace serverSideCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170915171911_newmigration")]
-    partial class newmigration
+    [Migration("20170920180105_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,7 +188,7 @@ namespace serverSideCapstone.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("ProfileDesctiption");
+                    b.Property<string>("ProfileDescription");
 
                     b.Property<string>("SecurityStamp");
 
