@@ -1,38 +1,43 @@
-@model IEnumerable<serverSideCapstone.Models.Message>
+@model serverSideCapstone.Models.ViewModels.MessageIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Your Messages</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<h3>Received Messages</h3>
 <table class="table">
     <tbody>
-    <table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Text)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TimeMessageSent)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var sentMessages in Model) {
-        <tr>
+@foreach(var xxx in Model.ReceivedMessages)
+{
+     <tr>
             <td>
-                @sentMessages.Text
+                @xxx.Text
             </td>
             <td>
-                @sentMessages.TimeMessageSent
+                @xxx.TimeMessageSent
             </td>
         </tr>
 }
     </tbody>
 </table>
+<h3>Sent Messages</h3>
+<table class="table">
+    <tbody>
+@foreach (var yyy in Model.SentMessages) {
+        <tr>
+            <td>
+                @yyy.Text
+            </td>
+            <td>
+                @yyy.TimeMessageSent
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+

@@ -29,8 +29,18 @@ namespace serverSideCapstone.Controllers
         // GET: Message
         public async Task<IActionResult> Index()
         {
+            MessageIndexViewModel model = new MessageIndexViewModel();
+            var user = await GetCurrentUserAsync();
+
+             model.ReceivedMessages = await _context.Message
+                .Where(cu => cu.ReceivingUser == user)
+                .ToListAsync();
+
+            model.SentMessages = await _context.Message
+                .Where(cu => cu.SendingUser == user)
+                .ToListAsync();
             
-            return View(await _context.Message.ToListAsync());
+            return View(model);
         }
 
 
@@ -79,25 +89,6 @@ namespace serverSideCapstone.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
-        //GET ONLY user Messages for the current User: 
-        public async Task<IActionResult> LoadOnlyThisUsersMessages()
-        {
-            var user = await GetCurrentUserAsync();
-
-
-            var sentMessages = await _context.Message
-            .Where(cu => cu.SendingUser == user && user == cu.ReceivingUser)
-            .GroupBy(su => su.SendingUser, ru => ru.ReceivingUser)
-            .ToListAsync();
-
-
-            return View();
-        }
-
-
-
 
         // GET: Message/Edit/5
         public async Task<IActionResult> Edit(int? id)
