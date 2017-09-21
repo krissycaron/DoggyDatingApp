@@ -10,6 +10,8 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
+    <tbody>
+    <table class="table">
     <thead>
         <tr>
                 <th>
@@ -22,13 +24,13 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var sentMessages in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Text)
+                @
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TimeMessageSent)
+                @sentMessages.Message
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |

@@ -24,13 +24,16 @@ namespace serverSideCapstone.Controllers
             _userManager = userManager;
         }
 
-         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Message
         public async Task<IActionResult> Index()
         {
+            
             return View(await _context.Message.ToListAsync());
         }
+
+
 
         // GET: Message/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -76,6 +79,25 @@ namespace serverSideCapstone.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        //GET ONLY user Messages for the current User: 
+        public async Task<IActionResult> LoadOnlyThisUsersMessages()
+        {
+            var user = await GetCurrentUserAsync();
+
+
+            var sentMessages = await _context.Message
+            .Where(cu => cu.SendingUser == user && user == cu.ReceivingUser)
+            .GroupBy(su => su.SendingUser, ru => ru.ReceivingUser)
+            .ToListAsync();
+
+
+            return View();
+        }
+
+
+
 
         // GET: Message/Edit/5
         public async Task<IActionResult> Edit(int? id)
