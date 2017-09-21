@@ -27,15 +27,10 @@
 @foreach (var sentMessages in Model) {
         <tr>
             <td>
-                @
+                @sentMessages.Text
             </td>
             <td>
-                @sentMessages.Message
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MessageId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MessageId">Delete</a>
+                @sentMessages.TimeMessageSent
             </td>
         </tr>
 }
