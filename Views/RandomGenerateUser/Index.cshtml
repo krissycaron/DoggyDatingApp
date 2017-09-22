@@ -3,25 +3,28 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h1>HI - index random</h1>
+<h1>Pick Your Pup Friends!</h1>
 
 <table class="table">
-    <thead>
-        <tr>
-                <th>
-                  UserName:
-                </th>
-            <th></th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
+            <th>
+                  UserName:
+            </th>
             <td>
                 @Html.DisplayFor(modelItem => @Model.LikedUser.UserName)
             </td>
+            <th>
+                  Oweners Name:
+            </th>
             <td>
                 @Html.DisplayFor(modelItem => @Model.LikedUser.OwnerFirstName)
-                
+            </td>
+            <th>
+                About Me:
+            </th>   
+            <td> 
+                 @Html.DisplayFor(modelItem => @Model.LikedUser.ProfileDescription)
             </td>
         </tr>
     </tbody>
