@@ -2,28 +2,48 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using serverSideCapstone.Data;
 using serverSideCapstone.Models;
+using serverSideCapstone.Models.ViewModels;
 
 namespace serverSideCapstone.Controllers
 {
     public class MessageController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public MessageController(ApplicationDbContext context)
+
+        public MessageController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Message
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Message.ToListAsync());
+            MessageIndexViewModel model = new MessageIndexViewModel();
+            var user = await GetCurrentUserAsync();
+
+             model.ReceivedMessages = await _context.Message
+                .Where(cu => cu.ReceivingUser == user)
+                .ToListAsync();
+
+            model.SentMessages = await _context.Message
+                .Where(cu => cu.SendingUser == user)
+                .ToListAsync();
+            
+            return View(model);
         }
+
+
 
         // GET: Message/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -44,9 +64,13 @@ namespace serverSideCapstone.Controllers
         }
 
         // GET: Message/Create
-        public IActionResult Create()
+        public IActionResult Create(string userID)
         {
-            return View();
+
+            ApplicationUser rUser = _context.ApplicationUser.SingleOrDefault(r => r.Id == userID);
+            MessagingReceivingViewModel newMessage = new MessagingReceivingViewModel();
+            newMessage.ReceivingUserId = rUser.Id; 
+            return View(newMessage);
         }
 
         // POST: Message/Create
@@ -54,15 +78,16 @@ namespace serverSideCapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MessageId,Text,TimeMessageSent")] Message message)
+        public async Task<IActionResult> Create(string Message, string ReceivingUserId)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(message);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(message);
+            ApplicationUser rUser = await _context.ApplicationUser.SingleOrDefaultAsync(r => r.Id == ReceivingUserId);
+            ApplicationUser sUser = await GetCurrentUserAsync(); 
+
+            Message sentMessage = new Message(){ReceivingUser = rUser, SendingUser = sUser, Text = Message};
+
+            _context.Add(sentMessage);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Message/Edit/5

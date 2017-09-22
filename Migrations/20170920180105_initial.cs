@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace serverSideCapstone.Migrations
 {
-    public partial class newmigration : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,7 +59,7 @@ namespace serverSideCapstone.Migrations
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    ProfileDesctiption = table.Column<string>(type: "TEXT", nullable: true),
+                    ProfileDescription = table.Column<string>(type: "TEXT", nullable: true),
                     SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
                     State = table.Column<string>(type: "TEXT", nullable: true),
                     TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),

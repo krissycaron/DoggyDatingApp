@@ -187,7 +187,7 @@ namespace serverSideCapstone.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("ProfileDesctiption");
+                    b.Property<string>("ProfileDescription");
 
                     b.Property<string>("SecurityStamp");
 

@@ -21,7 +21,7 @@ namespace serverSideCapstone.Models
         public string City {get; set;}
         public string State {get; set;}
         public int? ZipCode {get; set;}
-        public string ProfileDesctiption {get; set;}
+        public string ProfileDescription {get; set;}
 
         public bool? IsIntact {get; set;}
         public int? ActivityLevelId {get; set;}
